@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MVP Lab 2</title>
+</head>
+<body>
+    <h1>Тестування кошика</h1>
+    <button class="add-btn">Add to cart</button>
+    <div class="cart-count">0</div>
+    <p id="env-status" style="color: red; font-weight: bold;"></p>
+
+<script type="module">
+  document.getElementById('env-status').innerText = import.meta.env.VITE_APP_STATUS;
+</script>
+
+    <script>
+        const btn = document.querySelector('.add-btn');
+        const count = document.querySelector('.cart-count');
+        btn.onclick = () => {
+            count.innerText = parseInt(count.innerText) + 1;
+        };
+    </script>
+</body>
+</html>
