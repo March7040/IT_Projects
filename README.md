@@ -1,0 +1,1 @@
+[![CI/CD Pipeline](https://github.com/March7040/IT_Projects/actions/workflows/main.yml/badge.svg)](https://github.com/March7040/IT_Projects/actions/workflows/main.yml)
