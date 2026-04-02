@@ -3,24 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>MVP Lab 2</title>
+    
+    <script src="https://js-de.sentry-cdn.com/82da55f83a3c0e3f2ef4e66e3d7ee554.min.js" crossorigin="anonymous"></script>
+    <script>
+      Sentry.onLoad(function() {
+        Sentry.init({
+          environment: "development",
+          tracesSampleRate: 1.0
+        });
+      });
+    </script>
 </head>
 <body>
-    <h1>Тестування кошика</h1>
+    <h1>Тестування кошика з котиками</h1>
     <button class="add-btn">Add to cart</button>
     <div class="cart-count">0</div>
+    
+    <button id="urgent-btn" style="display: none; background: red; color: white; margin-top: 10px;">Тільки термінові</button>
+    
+    <button id="break-btn" style="background: darkred; color: white; margin-top: 20px; padding: 10px;">Викликати помилку (Sentry Test)</button>
+
     <p id="env-status" style="color: red; font-weight: bold;"></p>
 
-<script type="module">
-  document.getElementById('env-status').innerText = import.meta.env.VITE_APP_STATUS;
-</script>
+    <script type="module">
+        import posthog from 'posthog-js';
 
-    <script>
+        posthog.init('phc_mnyviVLGyuyElyKy1A3mgBysmNItn5DXhrHiNsoYCCF', {
+            api_host: 'https://us.i.posthog.com',
+            person_profiles: 'identified_only'
+        });
+
+        document.getElementById('env-status').innerText = import.meta.env.VITE_APP_STATUS;
+
         const btn = document.querySelector('.add-btn');
         const count = document.querySelector('.cart-count');
+        
         btn.onclick = () => {
             count.innerText = parseInt(count.innerText) + 1;
+            posthog.capture('cat_added_to_cart', {
+                total_cats_in_cart: count.innerText
+            });
         };
-        let Unused = "Err";
+
+        posthog.onFeatureFlags(() => {
+            if (posthog.isFeatureEnabled('show-urgent-filter')) {
+                document.getElementById('urgent-btn').style.display = 'block';
+            }
+        });
+
+        document.getElementById('break-btn').onclick = () => {
+            throw new Error("Sentry Test Error: Something went wrong with the cats!");
+        };
     </script>
 </body>
 </html>

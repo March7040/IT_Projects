@@ -1,6 +1,5 @@
 name: CI/CD Pipeline
 
-# Тригери: коли запускати перевірку
 on:
   push:
     branches:
@@ -17,24 +16,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Крок 1: GitHub завантажує твій код на свою віртуальну машину
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Крок 2: Встановлюємо Node.js (середовище для запуску)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # Крок 3: Встановлюємо всі бібліотеки з package.json
       - name: Install dependencies
         run: npm install
 
-      # Крок 4: Запускаємо перевірку коду на помилки (ESLint)
       - name: Run linter
         run: npm run lint
 
-      # Крок 5: Пробуємо зібрати проєкт (щоб переконатися, що він не зламаний)
       - name: Build project
         run: npm run build
+        
