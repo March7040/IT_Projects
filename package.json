@@ -27,5 +27,9 @@
     "cypress": "^15.11.0",
     "eslint": "^10.0.3",
     "vitest": "^4.0.18"
+  },
+  "dependencies": {
+    "@sentry/browser": "^10.47.0",
+    "posthog-js": "^1.363.6"
   }
 }
